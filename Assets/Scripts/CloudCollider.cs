@@ -19,9 +19,13 @@ public class CloudCollider : MonoBehaviour
 
     void OnMouseDown()
     {
-        fadeIn = true;
-        score.RateElement(this.transform.parent.name);
-        //Debug.Log("Clicked the Collider!");
+        // fade in if correct
+        int chain = score.RateElement(this.transform.parent.name);
+        if(chain > 0)
+        {
+            fadeIn = true;
+            fadeOut = false;
+        }
     }
 
     void Update()

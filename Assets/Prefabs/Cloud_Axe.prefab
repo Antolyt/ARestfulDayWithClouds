@@ -155,9 +155,9 @@ MonoBehaviour:
     type: 2}
   blendImage: {fileID: 212756291961504680}
   colliderCloud: {fileID: 60793188574256948}
-  rate: 6
+  rate: 10
   size: 0.05
-  driftSpeed: 0
+  spawnerSizeComparedToGameObject: 1.4
 --- !u!114 &114828040482979876
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -209,7 +209,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 9b24eec508dcd524fbb1bb047d68fc64, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

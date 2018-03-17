@@ -5,12 +5,14 @@ using UnityEngine.UI;
 
 public class Score : MonoBehaviour
 {
-    public CloudSpawner cloudSpawner;
+    //public CloudSpawner cloudSpawner;
+    public Transform spawnedClouds;
     string[] questElements;
     string questElement;
     public Text questText;
 
     public Text scoreText;
+    public Text singleScoreText;
     public int basicScore;
     int score;
     public int chainMultiplier;
@@ -25,29 +27,33 @@ public class Score : MonoBehaviour
 
     public ScorePresenter scorePresenter;
 
-    // Use this for initialization
-    void Start ()
-    {
-        questElements = new string[cloudSpawner.cloudVariants.Length];
-        for(int i = 0; i < questElements.Length; i++)
-        {
-            questElements[i] = cloudSpawner.cloudVariants[i].name.Split('_')[1];
-        }
+    private bool updateAfterStart = true;
 
-        NewQuest();
-	}
-	
+    private void Update()
+    {
+        if(updateAfterStart && spawnedClouds.childCount >= 3)
+        {
+            updateAfterStart = false;
+            questText.transform.parent.gameObject.SetActive(true);
+            NewQuest();
+        }
+    }
+
     /// <summary>
-    /// 
+    /// Checks if element(name) is the questItem, increase score if correct by basic score and chain, sets chain on 0 if incorrect
     /// </summary>
-    /// <param name="name"></param>
-    /// <returns>Chain</returns>
+    /// <param name="name">name of element to check</param>
+    /// <returns>chain</returns>
     public int RateElement(string name)
     {
         if(name == questElement)
         {
             score += basicScore + chain * chainMultiplier;
             scoreText.text = score.ToString();
+
+            singleScoreText.rectTransform.position = Input.mousePosition;
+            singleScoreText.text = "   " + basicScore + "+" + chain * chainMultiplier;
+            singleScoreText.gameObject.SetActive(true);
 
             chain = chain < maxChain ? chain + 1 : maxChain;
             correct.Play();
@@ -65,7 +71,7 @@ public class Score : MonoBehaviour
 
     public void NewQuest()
     {
-        questElement = questElements[Random.Range(0, questElements.Length)];
+        questElement = spawnedClouds.GetChild(Random.Range(0, spawnedClouds.childCount)).name;
         int sentence = Random.Range(0, sentenceBegin.Length);
         string quest = sentenceBegin[sentence] + "<b>" + questElement + "</b>";
         if (sentence > sentenceEnd.Length)
