@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -12,10 +13,10 @@ public class ScorePresenter : MonoBehaviour {
 
     public int waitTime;
     private float timeStemp;
+    public UnityEvent action;
 
-
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         scoreText.text = gameplayScoreText.text;
         timeStemp = Time.time;
 	}
@@ -24,7 +25,9 @@ public class ScorePresenter : MonoBehaviour {
 	void Update () {
         if(Input.GetButtonDown("Fire1") && Time.time > timeStemp + waitTime)
         {
-            SceneManager.LoadScene("Gameplay");
+            if (action != null) action.Invoke();
+            return;
+            //SceneManager.LoadScene("Gameplay");
         }
 	}
 }

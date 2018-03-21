@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CloudSpawner : MonoBehaviour {
-
-    public Transform camera;
-    public Transform destroyer;
+public class CloudSpawner : MonoBehaviour
+{
 
     public Transform[] spawnPoints;
     public Transform cloudTypes;
@@ -24,16 +22,6 @@ public class CloudSpawner : MonoBehaviour {
         Application.targetFrameRate = 60;
     }
 
-    private void FixedUpdate()
-    {
-        camera.position = new Vector3(camera.position.x - cloudSpeed * Time.fixedDeltaTime, camera.position.y, camera.position.z);
-        destroyer.position = new Vector3(destroyer.position.x - cloudSpeed * Time.fixedDeltaTime, destroyer.position.y, destroyer.position.z);
-        for (int i = 0; i < spawnPoints.Length; i++)
-        {
-            spawnPoints[i].position = new Vector3(spawnPoints[i].position.x - cloudSpeed * Time.fixedDeltaTime, spawnPoints[i].position.y, spawnPoints[i].position.z);
-        }
-    }
-
     // Update is called once per frame
     void Update () {
 
@@ -47,6 +35,7 @@ public class CloudSpawner : MonoBehaviour {
             cloud.transform.localScale = cloud.transform.localScale + new Vector3(0.1f, 0.1f) * Random.Range(-1,2);
             currentSpawnPoint = (currentSpawnPoint + 1) % spawnPoints.Length;
             SpriteToCloud sTC = cloud.GetComponent<SpriteToCloud>();
+            sTC.cloudSpeed = this.cloudSpeed;
 
             timeStemp = Time.fixedTime;
         }

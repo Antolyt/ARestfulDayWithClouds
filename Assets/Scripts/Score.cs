@@ -14,7 +14,7 @@ public class Score : MonoBehaviour
     public Text scoreText;
     public Text singleScoreText;
     public int basicScore;
-    int score;
+    public static int score;
     public int chainMultiplier;
     int chain;
     public int maxChain = 50;

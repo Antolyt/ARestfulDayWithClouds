@@ -12,24 +12,32 @@ public class SpriteToCloud : MonoBehaviour
     public float size;
     public float spawnerSizeComparedToGameObject;
 
-	// Use this for initialization
-	void Start () {
+    public float cloudSpeed;
+
+    // Use this for initialization
+    void Start()
+    {
         blendImage.color = new Color(1f, 1f, 1f, 0);
 
-        for (int i = 0; i < spawnMask.texture.height; i+= rate)
+        for (int i = 0; i < spawnMask.texture.height; i += rate)
         {
-            for (int j = 0; j < spawnMask.texture.width; j+= rate)
+            for (int j = 0; j < spawnMask.texture.width; j += rate)
             {
-                if(spawnMask.texture.GetPixel(i,j).a > 0.1f)
+                if (spawnMask.texture.GetPixel(i, j).a > 0.1f)
                 {
                     GameObject e = GameObject.Instantiate<GameObject>(particleSystemCloud);
                     e.transform.parent = this.transform;
-                    e.transform.position = new Vector3((i - spawnMask.texture.height / 2)*transform.localScale.x, (j - spawnMask.texture.width / 2)*transform.localScale.y) * size  + transform.position;
+                    e.transform.position = new Vector3((i - spawnMask.texture.height / 2) * transform.localScale.x, (j - spawnMask.texture.width / 2) * transform.localScale.y) * size + transform.position;
                     e.transform.localScale = transform.localScale * (spawnerSizeComparedToGameObject);
                 }
             }
         }
         Quaternion quad = Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward);
         transform.rotation = (quad);
+    }
+
+    private void FixedUpdate()
+    {
+        transform.position = new Vector3(transform.position.x + cloudSpeed * Time.fixedDeltaTime, transform.position.y, transform.position.z);
     }
 }
