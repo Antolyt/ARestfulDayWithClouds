@@ -22,7 +22,9 @@ public class CloudSpawner : MonoBehaviour
         Application.targetFrameRate = 60;
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Spawn Clouds every spawnOffset on next spawnPoint
+    /// </summary>
     void Update () {
 
         if(Time.fixedTime > timeStemp + spawnOffset)

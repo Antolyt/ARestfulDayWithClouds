@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
@@ -12,23 +11,42 @@ public class HighScoreTable : MonoBehaviour {
     public Text inputFieldName;
     public EventSystem es;
 
+    /// <summary>
+    /// Player is able to enter his name in scoreTable or not
+    /// </summary>
+    public bool interactible = true;
+
     public UnityEvent actionOnSubmit;
 
+    /// <summary>
+    /// Setup high score table
+    /// </summary>
     void Start()
     {
         bool inputPlaced = false;
 
-        for(int i = 0, j = 0; i <= nameScores.Length; i++)
+        if (!interactible)
         {
+            inputField.SetActive(false);
+            inputPlaced = true;
+        }
+
+        // foreach Textfield add score and name
+        for(int i = 0, j = 0; i < nameScores.Length && j < nameScores.Length; i++)
+        {
+            // check if score in savefile exist
             if(j < SaveScore.scoreData.scoreNames.Count)
             {
+                // place inputField if current score > score in savefile
                 if(!inputPlaced && SaveScore.currentScore >= SaveScore.scoreData.scoreNames[i].score)
                 {
                     inputField.transform.position = nameScores[i].name.transform.position;
                     es.SetSelectedGameObject(inputField);
                     nameScores[i].name.text = "";
+                    nameScores[i].score.text = Score.score.ToString();
                     inputPlaced = true;
                 }
+                // write score from savefile
                 else
                 {
                     nameScores[i].name.text = SaveScore.scoreData.scoreNames[j].name;
@@ -36,13 +54,22 @@ public class HighScoreTable : MonoBehaviour {
                     j++;
                 }
             }
+            // if Textfields > savefile entries, place inputField on last position
             else if(!inputPlaced)
             {
                 inputField.transform.position = nameScores[i].name.transform.position;
                 es.SetSelectedGameObject(inputField);
                 nameScores[i].name.text = "";
+                nameScores[i].score.text = Score.score.ToString();
+                inputPlaced = true;
                 break;
             }
+        }
+
+        // if savefile entries > TextFields and savefile scores > current score, don't place inputField
+        if (!inputPlaced)
+        {
+            inputField.SetActive(false);
         }
     }
 
@@ -50,9 +77,13 @@ public class HighScoreTable : MonoBehaviour {
     {
         if (Input.GetButtonDown("Submit"))
         {
-            SaveScore.AddPlayerToScoreTable(inputFieldName.text);
+            if(interactible) SaveScore.AddPlayerToScoreTable(inputFieldName.text);
             if (actionOnSubmit != null) actionOnSubmit.Invoke();
             return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse0)) {
+            es.SetSelectedGameObject(inputField);
         }
     }
 }

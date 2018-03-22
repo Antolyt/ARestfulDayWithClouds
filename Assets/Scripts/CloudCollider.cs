@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 
 public class CloudCollider : MonoBehaviour
 {
@@ -32,6 +27,7 @@ public class CloudCollider : MonoBehaviour
     {
         float step = speed * Time.deltaTime;
 
+        // fade in, if correct cloud is clicked
         if (fadeIn)
         {
             sprite.color = new Color(1f, 1f, 1f, Mathf.Lerp(sprite.color.a, max, step));
@@ -42,6 +38,7 @@ public class CloudCollider : MonoBehaviour
             }
         }
 
+        // fade out after faded in
         if (fadeOut)
         {
             sprite.color = new Color(1f, 1f, 1f, Mathf.Lerp(sprite.color.a, min, step));

@@ -5,24 +5,24 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
+/// <summary>
+/// Counts down from startTime in custom time steps(timeScaler) and do actions on hitting 0
+/// </summary>
 public class CountDown : MonoBehaviour {
 
     public int startTime = 3;
-    public float startTimeStemp;
+    private float startTimeStemp;
     public Text CountDownText;
-    public float TimeScaler = 1;
+    public float timeScaler = 1;
 
     public UnityEvent action;
 
-	// Use this for initialization
 	void Start () {
         startTimeStemp = Time.time;
-
     }
 	
-	// Update is called once per frame
 	void Update () {
-        int time = Mathf.RoundToInt(startTime + (startTimeStemp - Time.time) * TimeScaler);
+        int time = Mathf.RoundToInt(startTime + (startTimeStemp - Time.time) * timeScaler);
         if(time < 0)
         {
             if (action != null) action.Invoke();

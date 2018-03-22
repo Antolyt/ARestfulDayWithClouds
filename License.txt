@@ -1,0 +1,5 @@
+Made by Antolyt
+Environment Assets by Pxltiger: Fantasy landscape | from https://assetstore.unity.com/packages/3d/environments/fantasy-landscape-103573
+Music by Borrtex: Untitled Love Story - Main Theme | from http://freemusicarchive.org/music/Borrtex/
+SoundEffects by timgormly - Training Program, Correct2.aif | from https://freesound.org/people/timgormly/sounds/181859/
+                            Training Program, Incorrect1.aif | from https://freesound.org/people/timgormly/sounds/181858/

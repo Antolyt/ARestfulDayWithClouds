@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Score : MonoBehaviour
 {
-    //public CloudSpawner cloudSpawner;
     public Transform spawnedClouds;
     string[] questElements;
     string questElement;
@@ -24,12 +22,23 @@ public class Score : MonoBehaviour
 
     public string[] sentenceBegin = { "Do you see this ", "Aww, this ", "This ", "I see a ", "When I go home maybe I buy this ", "Look at this " };
     public string[] sentenceEnd = { ".", " is beautiful.", " reminds me of somthing.", ", you too?", ".", "." };
+    private Queue<string> lastQuests;
+    private int maxLastQuestSize = 2;
+    private int numberOfRetries = 5;
 
     public ScorePresenter scorePresenter;
 
     private bool updateAfterStart = true;
 
-    private void Update()
+    private void Start()
+    {
+        lastQuests = new Queue<string>();
+    }
+
+    /// <summary>
+    /// Wait till 3 Couds are spawn and set random one as quest
+    /// </summary>
+    void Update()
     {
         if(updateAfterStart && spawnedClouds.childCount >= 3)
         {
@@ -69,18 +78,26 @@ public class Score : MonoBehaviour
         return chain;
     }
 
+    /// <summary>
+    /// Create new Quest(Text: Cloud to click)
+    /// </summary>
     public void NewQuest()
     {
         questElement = spawnedClouds.GetChild(Random.Range(0, spawnedClouds.childCount)).name;
+
+        int i = 0;
+        while (lastQuests.Contains(questElement) && i++ < numberOfRetries)
+        {
+            questElement = spawnedClouds.GetChild(Random.Range(0, spawnedClouds.childCount)).name;
+        }
+
+        lastQuests.Enqueue(questElement);
+        if (lastQuests.Count > maxLastQuestSize) lastQuests.Dequeue();
+
         int sentence = Random.Range(0, sentenceBegin.Length);
         string quest = sentenceBegin[sentence] + "<b>" + questElement + "</b>";
         if (sentence > sentenceEnd.Length)
             sentence = 0;
         questText.text = quest + sentenceEnd[sentence];
-    }
-
-    public void PresentScore()
-    {
-
     }
 }

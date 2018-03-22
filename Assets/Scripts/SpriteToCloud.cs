@@ -14,7 +14,9 @@ public class SpriteToCloud : MonoBehaviour
 
     public float cloudSpeed;
 
-    // Use this for initialization
+    /// <summary>
+    /// Create ParticleSpawner based on sprite
+    /// </summary>
     void Start()
     {
         blendImage.color = new Color(1f, 1f, 1f, 0);
@@ -36,6 +38,9 @@ public class SpriteToCloud : MonoBehaviour
         transform.rotation = (quad);
     }
 
+    /// <summary>
+    /// Update position of clouds
+    /// </summary>
     private void FixedUpdate()
     {
         transform.position = new Vector3(transform.position.x + cloudSpeed * Time.fixedDeltaTime, transform.position.y, transform.position.z);
